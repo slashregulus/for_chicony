@@ -14,4 +14,6 @@ obj-$(CONFIG_SOC_CAMERA_TW9910)		+= tw9910.o
 obj-$(CONFIG_SOC_CAMERA_MAX9286)	+= max9286.o
 obj-$(CONFIG_SOC_CAMERA_TI9X4)		+= ti9x4.o
 obj-$(CONFIG_SOC_CAMERA_OV106XX)	+= ov106xx.o
+obj-m	+= tpxx.o
+obj-m	+= tp2854.o
 
