@@ -109,15 +109,8 @@ int tp2854_hardware_init(struct i2c_client *client)
             priv->hsync = 1280;
             priv->vsync = 720;
 
-            if (priv->tvi_clk == TP2854_TVP_CLK_148M) {
-                tp2854_write_reg(client ,TP2854_NPXL_H, 0x0C);
-                tp2854_write_reg(client ,TP2854_NPXL_L, 0xE4);
-
-            } else {
-                tp2854_write_reg(client ,TP2854_NPXL_H, 0x06);
-                tp2854_write_reg(client ,TP2854_NPXL_L, 0x72);
-            }
-
+            tp2854_write_reg(client ,TP2854_NPXL_H, 0x06);
+            tp2854_write_reg(client ,TP2854_NPXL_L, 0x72);
             tp2854_write_reg(client ,TP2854_OUT_H_DELAY_H, 0x13);
             tp2854_write_reg(client ,TP2854_OUT_H_DELAY_L, 0x15);
             tp2854_write_reg(client ,TP2854_OUT_V_DELAY_L, 0x19);
