@@ -237,7 +237,7 @@ int tp2854_hardware_init(struct i2c_client *client)
 	tp2854_write_reg(client ,TP2854_SYS_CLK_CTRL, 0xf0);
 	tp2854_write_reg(client ,TP2854_COL_H_PLL_FR_CTL, 0x34);
 
-    if (priv->tvi_clk == TP2854_TVP_CLK_148M)
+    if (priv->tvi_clk == TP2854_TVP_CLK_148M || priv->nxpl == NPXL_1080P_30)
         tp2854_write_reg(client ,TP2854_EQ1_HYSTER, 0x13 & ~EQ_CLK_FSEL);
     else
         tp2854_write_reg(client ,TP2854_EQ1_HYSTER, 0x13 | EQ_CLK_FSEL);
@@ -246,11 +246,12 @@ int tp2854_hardware_init(struct i2c_client *client)
     /* enable MIPI register access */
 	tp2854_write_reg(client ,TP2854_PAGE, MIPI_PAGE_ENABLE);
 
-    if (priv->tvi_clk == TP2854_TVP_CLK_148M) {
+    if (priv->tvi_clk == TP2854_TVP_CLK_148M || priv->nxpl == NPXL_1080P_30) {
         tp2854_write_reg(client ,TP2854_MIPI_PLL_CTRL4, 0x24 & ~OUT_DIV_EN);
     } else {
         tp2854_write_reg(client ,TP2854_MIPI_PLL_CTRL4, 0x24 | OUT_DIV_EN);
     }
+
 
 	tp2854_write_reg(client ,TP2854_MIPI_CLK_LAEN_CTRL, 0xf8);
 
