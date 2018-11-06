@@ -16,6 +16,7 @@
 #include "ar0220.c"
 #include "ap0101_ar014x.c"
 #include "ov2775.c"
+#include "chicony_cam.c"
 
 static enum {
 	ID_OV10635,
@@ -25,6 +26,7 @@ static enum {
 	ID_AR0220,
 	ID_AP0101_AR014X,
 	ID_OV2775,
+	ID_CHICONY,
 } chip_id;
 
 static int ov106xx_probe(struct i2c_client *client,
@@ -33,47 +35,55 @@ static int ov106xx_probe(struct i2c_client *client,
 	int ret;
 	chip_id = -EINVAL;
 
-	ret = ov10635_probe(client, did);
+
+
+	ret = chiconycam_probe(client, did);
 	if (!ret) {
-		chip_id = ID_OV10635;
+		chip_id = ID_CHICONY;
 		goto out;
 	}
 
-	ret = ov490_probe(client, did);
-	if (!ret) {
-		chip_id = ID_OV490_OV10640;
-		goto out;
-	}
-
-	ret = ov495_probe(client, did);
-	if (!ret) {
-		chip_id = ID_OV495_OV2775;
-		goto out;
-	}
-
-	ret = ar0132_probe(client, did);
-	if (!ret) {
-		chip_id = ID_AR0132;
-		goto out;
-	}
-
-	ret = ar0220_probe(client, did);
-	if (!ret) {
-		chip_id = ID_AR0220;
-		goto out;
-	}
-
-	ret = ap0101_probe(client, did);
-	if (!ret) {
-		chip_id = ID_AP0101_AR014X;
-		goto out;
-	}
-
-	ret = ov2775_probe(client, did);
-	if (!ret) {
-		chip_id = ID_OV2775;
-		goto out;
-	}
+//	ret = ov10635_probe(client, did);
+//	if (!ret) {
+//		chip_id = ID_OV10635;
+//		goto out;
+//	}
+//
+//	ret = ov490_probe(client, did);
+//	if (!ret) {
+//		chip_id = ID_OV490_OV10640;
+//		goto out;
+//	}
+//
+//	ret = ov495_probe(client, did);
+//	if (!ret) {
+//		chip_id = ID_OV495_OV2775;
+//		goto out;
+//	}
+//
+//	ret = ar0132_probe(client, did);
+//	if (!ret) {
+//		chip_id = ID_AR0132;
+//		goto out;
+//	}
+//
+//	ret = ar0220_probe(client, did);
+//	if (!ret) {
+//		chip_id = ID_AR0220;
+//		goto out;
+//	}
+//
+//	ret = ap0101_probe(client, did);
+//	if (!ret) {
+//		chip_id = ID_AP0101_AR014X;
+//		goto out;
+//	}
+//
+//	ret = ov2775_probe(client, did);
+//	if (!ret) {
+//		chip_id = ID_OV2775;
+//		goto out;
+//	}
 
 	v4l_err(client, "failed to probe @ 0x%02x (%s)\n",
 			client->addr, client->adapter->name);

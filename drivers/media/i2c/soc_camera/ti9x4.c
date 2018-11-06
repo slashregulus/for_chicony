@@ -237,10 +237,10 @@ static int ti9x4_initialize(struct i2c_client *client)
 	ti9x4_initial_setup(client);
 
 	for (idx = 0; idx < priv->links; idx++) {
-		if (!IS_ERR(priv->poc_gpio[idx])) {
-			gpiod_direction_output(priv->poc_gpio[idx], 1); /* POC power on */
-			mdelay(priv->poc_delay);
-		}
+		//if (!IS_ERR(priv->poc_gpio[idx])) {
+		//	gpiod_direction_output(priv->poc_gpio[idx], 1); /* POC power on */
+		//	mdelay(priv->poc_delay);
+		//}
 
 		ti9x4_fpdlink3_setup(client, idx);
 	}
@@ -299,7 +299,7 @@ static int ti9x4_registered_async(struct v4l2_subdev *sd)
 {
 	struct ti9x4_priv *priv = v4l2_get_subdevdata(sd);
 	struct i2c_client *client = priv->client;
-
+    pr_err("%s : enable CSI\r\n", __func__);
 	reg8_write(client, 0x33, ((priv->lanes - 1) ^ 0x3) << 4 | 0x1); /* enable CSI output, set CSI lane count, non-continuous CSI mode */
 
 	return 0;
@@ -346,10 +346,10 @@ static int ti9x4_parse_dt(struct i2c_client *client)
 			mdelay(250);
 	}
 
-	for (i = 0; i < 4; i++) {
-		sprintf(poc_name, "POC%d", i);
-		priv->poc_gpio[i] = devm_gpiod_get_optional(&client->dev, poc_name, 0);
-	}
+	//for (i = 0; i < 4; i++) {
+	//	sprintf(poc_name, "POC%d", i);
+	//	priv->poc_gpio[i] = devm_gpiod_get_optional(&client->dev, poc_name, 0);
+	//}
 
 	reg8_read(client, 0x00, &val);				/* read TI9x4 I2C address */
 	if (val != (priv->des_addr << 1)) {
@@ -440,6 +440,8 @@ static int ti9x4_probe(struct i2c_client *client,
 	struct ti9x4_priv *priv;
 	int err, i;
 
+    pr_err("%s %d\r\n", __func__, __LINE__);
+
 	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
 	if (!priv)
 		return -ENOMEM;
@@ -448,14 +450,16 @@ static int ti9x4_probe(struct i2c_client *client,
 	priv->des_addr = client->addr;
 	priv->client = client;
 	atomic_set(&priv->use_count, 0);
-
+    pr_err("%s %d\r\n", __func__, __LINE__);
 	err = ti9x4_parse_dt(client);
 	if (err)
 		goto out;
-
+    pr_err("%s %d\r\n", __func__, __LINE__);
 	err = ti9x4_initialize(client);
-	if (err < 0)
+	if (err < 0) {
+        pr_err("%s ti9x4_initialize fail\r\n", __func__);
 		goto out;
+    }
 
 	for (i = 0; i < priv->links; i++) {
 		v4l2_subdev_init(&priv->sd[i], &ti9x4_subdev_ops);
@@ -473,7 +477,7 @@ static int ti9x4_probe(struct i2c_client *client,
 		if (err < 0)
 			goto out;
 	}
-
+    pr_err("%s %d\r\n", __func__, __LINE__);
 out:
 	return err;
 }

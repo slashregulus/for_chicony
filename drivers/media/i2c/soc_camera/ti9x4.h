@@ -12,7 +12,7 @@
 #ifndef _TI9X4_H
 #define _TI9X4_H
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #undef dev_dbg
 #define dev_dbg dev_info
