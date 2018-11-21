@@ -119,13 +119,15 @@
 };
 
 
-&i2c4 {
+&i2c2 {
+	pinctrl-0 = <&i2c2_pins>;
+	pinctrl-names = "default";
 	status = "okay";
-	clock-frequency = <400000>;
+	clock-frequency = <100000>;
 
 	ov106xx@0 {
 		compatible = "ovti,ov106xx";
-		reg = <0x10>;
+		reg = <0x70>;
 
 		port@0 {
 			customer_in0: endpoint {
@@ -237,7 +239,7 @@
 		};
 		port@1 {
 			ti964_csi0ep0: endpoint {
-//				csi-rate = <1450>;
+				csi-rate = <1450>;
 				remote-endpoint = <&csi2_40_ep>;
 			};
 		};
@@ -249,7 +251,8 @@
 
 	virtual,channel {
 		csi2_vc0 {
-			data,type = "ycbcr422";
+//			data,type = "ycbcr422";
+			data,type = "rgb888";
 			receive,vc = <0>;
 		};
 //		csi2_vc1 {

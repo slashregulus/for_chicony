@@ -243,7 +243,8 @@
 };
 
 &i2c4 {
-	status = "okay";
+//	status = "okay";
+	status = "disable";
 
 	clock-frequency = <400000>;
 

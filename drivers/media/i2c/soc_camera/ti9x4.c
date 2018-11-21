@@ -190,7 +190,7 @@ static void ti9x4_fpdlink3_setup(struct i2c_client *client, int idx)
 		break;
 	}
 
-	reg8_write(client, 0x5c, priv->ti9x3_addr_map[idx] << 1); /* TI9X3 I2C addr */
+//	reg8_write(client, 0x5c, priv->ti9x3_addr_map[idx] << 1); /* TI9X3 I2C addr */
 //	reg8_write(client, 0x5d, SENSOR_ID << 1);		/* SENSOR I2C native - must be set by sensor driver */
 //	reg8_write(client, 0x65, (0x60 + idx) << 1);		/* SENSOR I2C translated - must be set by sensor driver */
 
@@ -409,10 +409,12 @@ static int ti9x4_parse_dt(struct i2c_client *client)
 		of_node_put(endpoint);
 
 		if (i < priv->links) {
-			if (of_property_read_u32(endpoint, "ti9x3-addr", &priv->ti9x3_addr_map[i])) {
-				dev_err(&client->dev, "ti9x3-addr not set\n");
-				return -EINVAL;
-			}
+			//if (of_property_read_u32(endpoint, "ti9x3-addr", &priv->ti9x3_addr_map[i])) {
+			//	dev_err(&client->dev, "endpoint name %s\n", endpoint->name);
+			//	dev_err(&client->dev, "ti9x3-addr not set\n");
+			//	return -EINVAL;
+			//}
+            priv->ti9x3_addr_map[i] = 0x0c;
 			priv->sd_fwnode[i] = of_fwnode_handle(endpoint);
 		}
 
