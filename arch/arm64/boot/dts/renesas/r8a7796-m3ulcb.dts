@@ -251,8 +251,9 @@
 
 	virtual,channel {
 		csi2_vc0 {
-//			data,type = "ycbcr422";
-			data,type = "rgb888";
+			data,type = "ycbcr422";
+//			data,type = "rgb888";
+//			data,type = "raw8";
 			receive,vc = <0>;
 		};
 //		csi2_vc1 {
